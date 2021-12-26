@@ -1,5 +1,6 @@
 package com.geekbrains.myfirsttests
 
+import android.provider.ContactsContract
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -17,6 +18,11 @@ class EmailValidatorTest {
     }
 
     @Test
+    fun emailValidator_CorrectEmailUnderlineCharacterInside_ReturnTrue() {
+        assertTrue(EmailValidator.isValidEmail("email_name@email.com"))
+    }
+
+    @Test
     fun emailValidator_InvalidEmailNoTld_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail("name@email"))
     }
@@ -27,6 +33,21 @@ class EmailValidatorTest {
     }
 
     @Test
+    fun emailValidate_InvalidEmailCyrillicLetters_ReturnsFalse() {
+        assertFalse(EmailValidator.isValidEmail("имя@email.com"))
+    }
+
+    @Test
+    fun emailValidator_InvalidEmailNotFullDomain_ReturnsFalse() {
+        assertFalse(EmailValidator.isValidEmail("name@.com"))
+    }
+
+    @Test
+    fun emailValidator_InvalidEmailSpaceInside_ReturnFalse() {
+        assertFalse(EmailValidator.isValidEmail("email name@email.com"))
+    }
+
+    @Test
     fun emailValidator_InvalidEmailNoUsername_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail("@email.com"))
     }
@@ -34,6 +55,11 @@ class EmailValidatorTest {
     @Test
     fun emailValidator_EmptyString_ReturnsFalse() {
         assertFalse(EmailValidator.isValidEmail(""))
+    }
+
+    @Test
+    fun emailValidator_AnyStringIsNotEmail_ReturnFalse() {
+        assertFalse(EmailValidator.isValidEmail("Some arbitrary text."))
     }
 
     @Test
